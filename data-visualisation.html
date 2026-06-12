@@ -34,13 +34,13 @@
     <h3>The problem</h3>
     <p>Two things made the recipe hard to display: sheer volume (200 structured actions), and scale variation — representing a 2-minute step and a 3-day step on the same timeline without losing either legibility or information.</p>
 
-    <h3>The approach: data-driven design, literally</h3>
-    <p>Placing 200 elements by hand wasn't viable — not once, and certainly not for every recipe revision. The recipe data lived in Excel, so I made Excel do the layout: formulas computed the position and size of every element from its timing, duration, and order, and the output fed a Figma automation that generated the visualisation. Full recipes rendered accurately, at scale, and updated quickly when the data changed.</p>
-    <p>With limited research access in a fast-moving, specialised domain, I validated readability with a small group of users — pragmatic validation matched to the constraints.</p>
+    <h3>The design</h3>
+    <p>The solution was the visualisation itself — a way of representing the full recipe so that a 2-minute step and a 3-day step stayed legible side by side, with order, dependencies, and responsibilities readable at a glance. That design was eventually implemented in the tool.</p>
+    <p>Producing the visualisations was its own problem: placing 200 elements by hand wasn't viable for every recipe. The recipe data lived in Excel, so I made Excel do the layout — formulas computed the position and size of every element from its timing, duration, and order, feeding a Figma automation that generated the result. The automation wasn't the solution; it just turned days of manual layout into a few minutes per recipe — which mattered for what happened next.</p>
 
-    <h3>The outcome nobody planned</h3>
-    <p>Teams began requesting visualisations of additional recipes — not to schedule production, but to <strong>audit the recipes themselves</strong>. The Excel files were the source of truth, but complex dependencies and timing were nearly impossible to verify in a spreadsheet. In visual form, errors were immediately apparent.</p>
-    <blockquote>The most valuable use case wasn't in the brief. Shipping and watching real use surfaced it — upfront research wouldn't have.</blockquote>
+    <h3>Validation by demand</h3>
+    <p>I checked readability with a small group of users, but the strongest validation wasn't a study. Before the design existed in the tool, users started requesting visualisations of more and more recipes — because <strong>errors that were invisible in the Excel files were immediately apparent in visual form</strong>. The spreadsheets were the source of truth for production, yet complex dependencies and timing were nearly impossible to verify in them.</p>
+    <blockquote>When users queue up for the design artifact itself — before the product that contains it exists — readability is no longer a hypothesis.</blockquote>
 
     <h2>Gene research exploration tool</h2>
     <p>Scientists deciding which genes to prioritise work with thousands of data points per gene. Even after filtering to the relevant ones, that left hundreds of columns per table. The challenge wasn't just density — it was <em>meaningful</em> density: helping scientists spot which genes deserved attention without flattening the underlying richness.</p>
@@ -61,7 +61,8 @@
     <h2>What these projects say about my work</h2>
     <ul>
       <li>Information density at scale is a distinct design skill — different from layout or interaction design, and underrated.</li>
-      <li>Automation is a design tool. Excel formulas driving Figma generation is unconventional, but it made the impossible routine.</li>
+      <li>Demand is the strongest validation. When users want the design artifact before the product ships, the design works.</li>
+      <li>Automation multiplies design output. Excel formulas driving Figma generation is unconventional, but it let me meet that demand in minutes instead of days.</li>
       <li>Sometimes deep domain immersion is the prerequisite, not the luxury. Knowing when you understand enough to proceed is part of the craft.</li>
     </ul>
 
