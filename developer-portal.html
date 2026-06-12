@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internal Developer Portal — Jiří Šindelář</title>
+<meta name="description" content="Case study: UX lead on a Backstage-based internal developer portal. Provisioning feature adopted by hundreds of teams.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html">Jiří Šindelář</a>
+    <nav>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <article class="wrap">
+    <p class="kicker">Case study</p>
+    <h1>Internal Developer Portal: designing the value, not just the interface</h1>
+    <p class="factline">Global pharmaceutical company · Senior UX Designer & acting Product Owner · 2024–2026 · Backstage-based platform</p>
+
+    <div class="metrics">
+      <div class="metric"><div class="num">100s</div><div class="label">of teams adopted the Project feature within months</div></div>
+      <div class="metric"><div class="num">3.7 → 4.2</div><div class="label">template usefulness score (1–5)</div></div>
+      <div class="metric"><div class="num">4.7 / 5</div><div class="label">developer welcome email rating</div></div>
+      <div class="metric"><div class="num">100%</div><div class="label">preferred the redesigned template cards in testing</div></div>
+    </div>
+
+    <h2>Context</h2>
+    <p>Internal teams providing developer services — cloud accounts, CI/CD, artifact storage — operated in silos. A developer building something end-to-end had to deal with each team separately, each with its own requirements, naming conventions, and onboarding. It could take months. Developer onboarding alone ranged from 30 to 90 days from first day to first meaningful commit.</p>
+    <p>The portal, built on the open-source Backstage framework, was created to bring this together: a knowledge base, a catalog of services and resources, and self-service templates. I led UX across all three — and served as acting Product Owner for four months.</p>
+
+    <h2>A feature that failed — and what it taught us</h2>
+    <p>My first task was to ship a feature aligning infrastructure resource naming across service providers. The brief seemed obvious, the solution seemed obvious; it shipped in a sprint. Then nobody used it.</p>
+    <p>Follow-up research found two reasons: the naming convention confused the developers it was meant to help, and the feature offered no value over existing channels — it was a UI wrapper around something documentation already did. Nobody had designed the value proposition, only the interface.</p>
+
+    <h2>The redesign: Projects</h2>
+    <p>Based on that research, I designed a new concept. Initial stakeholder reception was lukewarm — implementation complexity worried people. One technically strong stakeholder saw the potential, and over several months we co-designed the UX and the technical architecture together, in constant back-and-forth: <em>"if we build it this way, we can do X; if differently, Y."</em></p>
+    <p>The result was the <strong>Project</strong>: creating one automatically provisions the full standardised set of resources a team needs — GitHub teams, security groups, distribution lists, accounts — with three defined roles synchronised across all of them. Add a team member once, and every group updates. And because resources are created through the portal, documentation is generated, not written.</p>
+    <p>Along the way: roughly 30 user interviews, three formal usability studies testing both the UI and whether the concept itself was understandable, and continuous informal feedback sessions.</p>
+    <blockquote>Progressive stakeholder alignment beats a single high-stakes presentation. By the final pitch, the feasibility questions were already answered — and the stakeholder who helped shape the solution championed it to his peers.</blockquote>
+    <p>The feature shipped, was praised by senior management, demoed at company-wide showcases, and adopted by hundreds of teams within a few months. A post-launch study with power users and low-usage users (to avoid survivorship bias) defined the next opportunities: broader resource coverage and auto-discovery.</p>
+
+    <h2>Knowledge base: arguing against the plan</h2>
+    <p>The original content strategy was to migrate everything — Confluence, SharePoint, scattered docs — into Markdown files in GitHub, and measure success by how many old portals could be killed. I disagreed, and research with content owners backed it up: many were non-technical project owners who would never maintain documentation through Git.</p>
+    <p>The alternative I proposed: ingest content directly from Confluence via a plugin, and introduce a <strong>source registry</strong> where owners declared which content they actively maintained. Only confirmed, owned content entered the knowledge base; abandoned content was excluded by default. Quality became the filter, not the platform.</p>
+    <p>Content usefulness — never measured before, previously known only through complaints — came in at 4.2/5 via in-page surveys.</p>
+    <p>The fastest win wasn't a feature at all: a curated welcome email for new developers — where to find what, which tools exist, how to start — iterated on feedback to a 4.7/5 usefulness rating. It directly addressed the research finding that developers' default help channel was asking a colleague.</p>
+
+    <h2>Self-service at scale: 200 templates, no order</h2>
+    <p>Templates let any team publish self-service forms that trigger automation. Full self-service had a cost: ~200 templates in a flat list, inconsistent naming, the same input appearing with different labels and input types across templates, and no quality bar.</p>
+    <ul>
+      <li><strong>Categorisation</strong> — introduced a two-dimensional model: a verb-based template type (Create, Request, Configure, Remove — each tested with users for distinctness) plus a two-level category hierarchy.</li>
+      <li><strong>Card redesign</strong> — surfaced type and owning team; clicking an owner filters to their templates. 100% of 10–20 test participants preferred the new design.</li>
+      <li><strong>Governance</strong> — public templates now require portal-team approval; private ones stay self-service. Communication to existing owners halved the public list. Template usefulness rose from 3.7 to 4.2.</li>
+    </ul>
+    <p>For complex multi-resource setups, I designed <strong>Application Patterns</strong> — templates that list their prerequisites with links and recommended values, creating a guided path without expensive orchestration. I tested smoother alternatives too; they weren't worth the engineering cost. A deliberate, validated trade-off.</p>
+
+    <h2>AI in the workflow</h2>
+    <p>We shipped an AI chatbot answering questions from the curated knowledge base. I built AI skills to support template governance reviews and design-system component creation in Figma, and a proof of concept for AI-assisted template creation via MCP. The pattern across all of them: AI works when the underlying content is curated — which is why the quality-filter work mattered first.</p>
+
+    <div class="pager">
+      <a href="api-portal.html">← Internal API Portal</a>
+      <a href="data-visualisation.html">Designing for Extreme Data Density →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    Jiří Šindelář · Senior UX/Product Designer · <a href="mailto:jiri.sin@gmail.com">jiri.sin@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>

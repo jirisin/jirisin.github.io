@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designing for Extreme Data Density — Jiří Šindelář</title>
+<meta name="description" content="Case study: two data-dense scientific tools — drug production scheduling and gene research — solved with visual encoding and Figma automation.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html">Jiří Šindelář</a>
+    <nav>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <article class="wrap">
+    <p class="kicker">Case study</p>
+    <h1>Designing for extreme data density: two tools, one challenge</h1>
+    <p class="factline">MSD · Senior UX Designer · two ~6-month projects alongside the API Portal work</p>
+
+    <p>Both projects shared the same underlying problem: more structured data on one screen than conventional UI patterns can handle. Both demanded answers beyond layout — one through automation, one through visual encoding.</p>
+
+    <h2>Production schedule visualisation</h2>
+    <p>A tool for optimising drug production scheduling. Its input is a production <strong>recipe</strong>: 150–200 actions describing the full process — required tools and skills, dependencies, and timing per step. Some steps take minutes; others take days. The tool turns this into an itinerary of who does what, when.</p>
+
+    <h3>The problem</h3>
+    <p>Two things made the recipe hard to display: sheer volume (200 structured actions), and scale variation — representing a 2-minute step and a 3-day step on the same timeline without losing either legibility or information.</p>
+
+    <h3>The approach: data-driven design, literally</h3>
+    <p>Placing 200 elements by hand wasn't viable — not once, and certainly not for every recipe revision. The recipe data lived in Excel, so I made Excel do the layout: formulas computed the position and size of every element from its timing, duration, and order, and the output fed a Figma automation that generated the visualisation. Full recipes rendered accurately, at scale, and updated quickly when the data changed.</p>
+    <p>With limited research access in a fast-moving, specialised domain, I validated readability with a small group of users — pragmatic validation matched to the constraints.</p>
+
+    <h3>The outcome nobody planned</h3>
+    <p>Teams began requesting visualisations of additional recipes — not to schedule production, but to <strong>audit the recipes themselves</strong>. The Excel files were the source of truth, but complex dependencies and timing were nearly impossible to verify in a spreadsheet. In visual form, errors were immediately apparent.</p>
+    <blockquote>The most valuable use case wasn't in the brief. Shipping and watching real use surfaced it — upfront research wouldn't have.</blockquote>
+
+    <h2>Gene research exploration tool</h2>
+    <p>Scientists deciding which genes to prioritise work with thousands of data points per gene. Even after filtering to the relevant ones, that left hundreds of columns per table. The challenge wasn't just density — it was <em>meaningful</em> density: helping scientists spot which genes deserved attention without flattening the underlying richness.</p>
+
+    <h3>Three months to earn the right to design</h3>
+    <p>I spent the first three months on a single screen — not designing, but understanding the science: the data model, the statistical concepts, the relationships between data points. The domain was too specialised to design responsibly without it. Then it clicked, and design progress accelerated sharply.</p>
+    <p>Rushing in earlier would have produced something superficially functional but wrong in ways that mattered — and in scientific tooling, subtly wrong is worse than visibly broken.</p>
+
+    <h3>Encoding instead of layout</h3>
+    <p>When column count makes traditional table design unworkable, meaning has to move into the cells themselves. I used a multi-layered visual encoding system:</p>
+    <ul>
+      <li><strong>Colour</strong> — category or type of data point</li>
+      <li><strong>Colour intensity</strong> — magnitude, e.g. strength of statistical signal</li>
+      <li><strong>Shape</strong> — an additional dimension, such as significance or directionality</li>
+    </ul>
+    <p>Several data dimensions communicated simultaneously per cell — a table of hundreds of columns that scientists could scan rather than read.</p>
+
+    <h2>What these projects say about my work</h2>
+    <ul>
+      <li>Information density at scale is a distinct design skill — different from layout or interaction design, and underrated.</li>
+      <li>Automation is a design tool. Excel formulas driving Figma generation is unconventional, but it made the impossible routine.</li>
+      <li>Sometimes deep domain immersion is the prerequisite, not the luxury. Knowing when you understand enough to proceed is part of the craft.</li>
+    </ul>
+
+    <p class="note">Both tools contain proprietary production and research data, so no visuals can be shown. Descriptions are kept deliberately high-level.</p>
+
+    <div class="pager">
+      <a href="developer-portal.html">← Internal Developer Portal</a>
+      <a href="index.html#work">All case studies →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    Jiří Šindelář · Senior UX/Product Designer · <a href="mailto:jiri.sin@gmail.com">jiri.sin@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>

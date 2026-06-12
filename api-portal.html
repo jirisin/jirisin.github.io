@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internal API Portal — Jiří Šindelář</title>
+<meta name="description" content="Case study: designing an internal API portal from scratch. NPS 10 to 60, 9× faster access workflow, continuous discovery.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html">Jiří Šindelář</a>
+    <nav>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <article class="wrap">
+    <p class="kicker">Case study</p>
+    <h1>Internal API Portal: from two confusing portals to NPS 60</h1>
+    <p class="factline">MSD · Senior UX Designer · 2019–2024 · Sole designer, working with PM and engineering</p>
+
+    <div class="metrics">
+      <div class="metric"><div class="num">10 → 60</div><div class="label">NPS over the product's lifetime</div></div>
+      <div class="metric"><div class="num">9×</div><div class="label">faster get-access workflow</div></div>
+      <div class="metric"><div class="num">~40%</div><div class="label">less search effort in the catalog</div></div>
+      <div class="metric"><div class="num">~200 h</div><div class="label">of user interviews before launch</div></div>
+    </div>
+
+    <h2>Context</h2>
+    <p>The portal is where developers discover internal APIs, understand how to consume them, and request access keys. When I joined, there were two separate portal instances — one for test APIs, one for production. They were connected but distinct, and users switched environments without realising it.</p>
+    <p>The business wanted to merge them, but feared users would confuse test and production access workflows. I inherited some early outputs from a previous designer, ran my own interviews with sketches, and the research confirmed the direction: one unified portal. I designed it from scratch.</p>
+
+    <h2>How I worked: continuous discovery</h2>
+    <p>Rather than discrete research sprints, I ran 2–4 user interviews per week, continuously — roughly 200 hours of interviews in the first nine months alone. Sessions tracked the design as it evolved, from paper-level sketches to high-fidelity screens. Every major decision had user evidence behind it before development started.</p>
+    <p>I also built the measurement infrastructure myself: Google Tag Manager, Google Analytics event tracking, Looker Studio dashboards, and in-context satisfaction prompts after key actions. The team moved from assumption-based to evidence-based decisions — and that analytics work directly triggered several of the improvements below.</p>
+
+    <h2>Making access 9× faster</h2>
+    <p>Users complained that requesting an API key felt unnecessarily complex — "it should be one click." Instead of just compressing the form, I audited it from both sides: what users fill in, and how access reviewers actually use each field.</p>
+    <ul>
+      <li>Most of the context reviewers needed could be derived from a single input — the application consuming the API. That cut roughly half the fields.</li>
+      <li>For the rest, I interviewed the reviewers. Several fields existed for old initiatives, unused data, or curiosity. Eliminated.</li>
+      <li>Some labels were actively misleading — a field labelled "application name" actually asked for the name of the key being created. Several wording iterations later, users filled it in correctly.</li>
+    </ul>
+    <p>The combination — fewer fields, clearer labels — made the workflow nine times faster to complete.</p>
+
+    <h2>The approval-time problem</h2>
+    <p>A year-end survey surfaced a wave of complaints about approval times. Ticket analysis showed the median approval took about two weeks; users expected immediate access, or two days at most. Part of the problem was genuinely procedural — but a bigger part was that requestors needed to complete eligibility steps they never learned about, because that information lived in a tab they never visited.</p>
+    <p>I redesigned the request into a three-step flow, with the environment choice up front and the approval timeline and required preparation shown inline — before submitting, not after.</p>
+    <h3>Testing caught what confidence missed</h3>
+    <p>I was confident the redesign solved the problem. I ran a usability study anyway. Round one: almost nobody noticed the critical information, even highlighted in an orange box in the centre of the screen. The surrounding supplementary content created too much visual noise.</p>
+    <blockquote>If users don't see something, the UI probably contains too much, not too little.</blockquote>
+    <p>I stripped the step down to the essentials — environment, timeline, required actions — and validated again. This time users consistently noticed the approval requirement and understood the process, with no perceived increase in complexity. The fix cost a design iteration; caught after development, it would have cost a release cycle.</p>
+
+    <h2>Search that meets users where they are</h2>
+    <p>Analytics showed most search activity happened on the catalog page, while most homepage traffic skipped search entirely. With only ~200 APIs, the whole catalog could load client-side — so I converted search into live suggestions, auto-focused the homepage search input, and made any keystroke drop the user straight into the filtering catalog. Adding popularity sorting (by access keys requested) cut search effort by roughly 40%. Other teams started copying the pattern.</p>
+
+    <h2>The design system nobody asked for</h2>
+    <p>When I joined, the company had a brand manual — a logo and colours — and nothing else. I built a custom design system for the portal. Years later, when an official company-wide design system arrived, I ran a preference study comparing the two. Users clearly preferred the portal's design, and other teams were already copying it as an internal benchmark.</p>
+
+    <h2>A side lesson in measurement</h2>
+    <p>Early NPS tracking was unreliable — the survey fired too often, including at first-time visitors. Fixing the targeting rules alone moved NPS from 40 to 60. The lesson stuck with me: a metric jump can mean you fixed the product, or that you fixed the measurement. You need to know which.</p>
+    <p>The same thinking applied to the year-end survey email: applying the reciprocity principle — leading with something of value before the ask — roughly quadrupled response rates year over year.</p>
+
+    <div class="pager">
+      <a href="index.html#work">← All case studies</a>
+      <a href="developer-portal.html">Internal Developer Portal →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    Jiří Šindelář · Senior UX/Product Designer · <a href="mailto:jiri.sin@gmail.com">jiri.sin@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
