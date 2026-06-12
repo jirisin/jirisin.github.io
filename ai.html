@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designing with and for AI — Jiří Šindelář</title>
+<meta name="description" content="Case study: AI-powered product features and AI-assisted design workflows — chatbot on a curated knowledge base, AI skills, MCP, Figma automation.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img class="logo-pic" src="portrait.png" alt="" width="30" height="30">Jiří Šindelář</a>
+    <nav>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <article class="wrap">
+    <p class="kicker">Case study</p>
+    <h1>Designing with and for AI</h1>
+    <p class="factline">MSD · Internal Developer Portal & design practice · 2024–2026</p>
+
+    <p>AI shows up in my work in two directions: features users talk to, and tooling that multiplies what I can produce as a designer. Both taught me the same lesson — AI is only as good as the foundation you give it.</p>
+
+    <h2>An AI chatbot users could trust</h2>
+    <p>The Internal Developer Portal had a knowledge base problem before it had an AI opportunity: documentation scattered across platforms, much of it outdated, and developers defaulting to asking colleagues. We fixed the foundation first — a source registry where content owners declared what they actively maintained, so only confirmed, owned content entered the knowledge base (rated 4.2/5 by users, with no prior baseline).</p>
+    <p>That curation is what made the chatbot viable. We shipped an assistant that answered developer questions directly from the curated knowledge base — not from the scattered, stale content that had eroded trust for years. Developers got answers without searching or interrupting a colleague.</p>
+    <blockquote>The chatbot wasn't the hard part. The design decision that mattered — made before AI entered the picture — was refusing to ingest content nobody stood behind.</blockquote>
+
+    <h2>AI as a design-team multiplier</h2>
+    <p>I build AI skills — reusable, structured instructions that encode a process so AI can execute it consistently:</p>
+    <ul>
+      <li><strong>Design system components.</strong> When Backstage moved to its own design system, I led the Figma migration and used AI to generate the component library — with a dedicated skill to support and scale the process.</li>
+      <li><strong>Template governance.</strong> Reviewing self-service templates for naming consistency, input types, and UX standards is exacting, repetitive work. I encoded the review criteria into an AI skill that supported the governance process.</li>
+      <li><strong>Template creation (proof of concept).</strong> Built a POC using MCP (Model Context Protocol) for AI-assisted template creation — pointing toward a future where developers describe what they need and the assistant recommends, or eventually triggers, the right template.</li>
+    </ul>
+
+    <h2>Automation before it was easy</h2>
+    <p>Before AI tooling matured, I was already automating design production: for a drug production scheduling tool, I generated 150–200-element Figma visualisations programmatically from Excel data — formulas computed every element's position and size. New visualisation in minutes instead of days. The habit of treating design output as something you can generate, not just draw, is the same muscle AI workflows use now — the full story is in the <a href="data-visualisation.html">data density case study</a>.</p>
+
+    <h2>Where I stand on AI in design</h2>
+    <ul>
+      <li><strong>Foundation before magic.</strong> Curated content made the chatbot trustworthy; clear review criteria made the governance skill useful. AI amplifies the quality of what you feed it — in both directions.</li>
+      <li><strong>Encode the process, not just the prompt.</strong> Skills that capture how a task is done outlive any single conversation and let a team scale a practice, not a trick.</li>
+      <li><strong>Automate production, keep judgment.</strong> Generating components and layouts is the machine's job. Deciding what's worth generating still isn't.</li>
+    </ul>
+
+    <div class="pager">
+      <a href="data-visualisation.html">← Designing for Extreme Data Density</a>
+      <a href="index.html#work">All case studies →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    Jiří Šindelář · Senior UX/Product Designer · <a href="mailto:jiri.sin@gmail.com">jiri.sin@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
