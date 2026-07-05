@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gene research exploration tool — Jiří Šindelář</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section class="cs-hero">
+  <div class="cs-hero-inner">
+    <div class="top-nav">
+      <a class="brand" href="index.html"><span class="arrow">←</span> Jiří Šindelář</a>
+      <div class="links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#approach">AI in my work</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+    <div class="cs-hero-copy">
+      <div data-reveal data-reveal-delay="60" class="eyebrow">MSD · Senior UX Designer · ~6-month project</div>
+      <h1 data-reveal data-reveal-delay="160">Gene research exploration tool</h1>
+      <p data-reveal data-reveal-delay="300" class="summary">Hundreds of data columns per gene, and scientists still needed to spot the ones that mattered in seconds. I spent three months just learning the science before I touched a single pixel.</p>
+      <div data-reveal data-reveal-delay="400" class="cs-tags">
+        <span class="tag">Data visualisation</span>
+        <span class="tag">Visual encoding</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-metabar">
+  <div data-reveal class="cs-metabar-inner">
+    <div class="cs-meta-list">
+      <div><div class="label">Company</div><div class="value">MSD</div></div>
+      <div><div class="label">Role</div><div class="value">Senior UX Designer</div></div>
+      <div><div class="label">Scope</div><div class="value">~6-month project, alongside the API catalog work</div></div>
+    </div>
+    <div class="cs-metrics">
+      <div class="metric-item"><div class="metric-value">100s</div><div class="metric-label">of data columns per table, made scannable</div></div>
+      <div class="metric-item"><div class="metric-value">3 mo</div><div class="metric-label">understanding the science before designing</div></div>
+      <div class="metric-item"><div class="metric-value">3</div><div class="metric-label">visual dimensions encoded per cell</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-body">
+  <div class="cs-body-inner">
+
+    <div data-reveal class="cs-block">
+      <div class="k">01</div>
+      <h2>The tool</h2>
+      <p>Scientists deciding which genes to prioritise work with thousands of data points per gene. Even after filtering to the relevant ones, that left hundreds of columns per table. The challenge wasn't just density — it was meaningful density: helping scientists spot which genes deserved attention without flattening the underlying richness.</p>
+    </div>
+
+    <div data-reveal class="cs-block">
+      <h2>Three months to earn the right to design</h2>
+      <p>I spent the first three months on a single screen — not designing, but understanding the science: the data model, the statistical concepts, the relationships between data points. The domain was too specialised to design responsibly without it. Then it clicked, and design progress accelerated sharply.</p>
+      <p>Rushing in earlier would have produced something superficially functional but wrong in ways that mattered — and in scientific tooling, subtly wrong is worse than visibly broken.</p>
+    </div>
+
+    <div data-reveal class="cs-block">
+      <h2>Encoding instead of layout</h2>
+      <p>When column count makes traditional table design unworkable, meaning has to move into the cells themselves. I used a multi-layered visual encoding system:</p>
+      <ul>
+        <li>Colour — category or type of data point</li>
+        <li>Colour intensity — magnitude, e.g. strength of statistical signal</li>
+        <li>Shape — an additional dimension, such as significance or directionality</li>
+      </ul>
+      <p>Several data dimensions communicated simultaneously per cell — a table of hundreds of columns that scientists could scan rather than read.</p>
+    </div>
+
+    <div data-reveal class="cs-block">
+      <div class="k">02</div>
+      <h2>What this project says about my work</h2>
+      <ul>
+        <li>Information density at scale is a distinct design skill — different from layout or interaction design, and underrated.</li>
+        <li>Sometimes deep domain immersion is the prerequisite, not the luxury. Knowing when you understand enough to proceed is part of the craft.</li>
+      </ul>
+    </div>
+
+    <div class="cs-nda-note">
+      <p>This was an internal enterprise product under NDA, so this is a written narrative without screenshots. Happy to walk through the work and artefacts in more detail in person.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-prevnext">
+  <div data-reveal class="cs-prevnext-inner">
+    <a class="side prev" href="drug-scheduling.html">
+      <span class="side-label">← Previous</span>
+      <span class="side-title">Scheduling optimalization tool</span>
+    </a>
+    <a class="cs-allwork" href="index.html#work">All work</a>
+    <a class="side next" href="api-portal.html">
+      <span class="side-label">Next →</span>
+      <span class="side-title">Internal API catalog</span>
+    </a>
+  </div>
+</section>
+
+<footer class="site">
+  <div>Jiří Šindelář — Senior UX / Product Designer</div>
+  <div>Prague, Czechia · jiri.sin@gmail.com</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

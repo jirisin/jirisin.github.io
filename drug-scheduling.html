@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduling optimalization tool — Jiří Šindelář</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section class="cs-hero">
+  <div class="cs-hero-inner">
+    <div class="top-nav">
+      <a class="brand" href="index.html"><span class="arrow">←</span> Jiří Šindelář</a>
+      <div class="links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#approach">AI in my work</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+    <div class="cs-hero-copy">
+      <div data-reveal data-reveal-delay="60" class="eyebrow">MSD · Senior UX Designer · ~6-month project</div>
+      <h1 data-reveal data-reveal-delay="160">Scheduling optimalization tool</h1>
+      <p data-reveal data-reveal-delay="300" class="summary">150–200 actions per recipe, wildly different timescales, and no way to see them together. I had to make it legible at a glance — then automate my way out of drawing it by hand.</p>
+      <div data-reveal data-reveal-delay="400" class="cs-tags">
+        <span class="tag">Data visualisation</span>
+        <span class="tag">Figma automation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-metabar">
+  <div data-reveal class="cs-metabar-inner">
+    <div class="cs-meta-list">
+      <div><div class="label">Company</div><div class="value">MSD</div></div>
+      <div><div class="label">Role</div><div class="value">Senior UX Designer</div></div>
+      <div><div class="label">Scope</div><div class="value">~6-month project, alongside the API catalog work</div></div>
+    </div>
+    <div class="cs-metrics">
+      <div class="metric-item"><div class="metric-value">150–200</div><div class="metric-label">structured actions per production recipe</div></div>
+      <div class="metric-item"><div class="metric-value">minutes</div><div class="metric-label">per recipe, down from days of manual layout</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-body">
+  <div class="cs-body-inner">
+
+    <div data-reveal class="cs-block">
+      <div class="k">01</div>
+      <h2>The tool</h2>
+      <p>A tool for optimising drug production scheduling. Its input is a production recipe: 150–200 actions describing the full process — required tools and skills, dependencies, and timing per step. Some steps take minutes; others take days. The tool turns this into an itinerary of who does what, when.</p>
+    </div>
+
+    <div data-reveal class="cs-block">
+      <h2>The problem</h2>
+      <p>Two things made the recipe hard to display: sheer volume (200 structured actions), and scale variation — representing a 2-minute step and a 3-day step on the same timeline without losing either legibility or information.</p>
+    </div>
+
+    <div data-reveal class="cs-block">
+      <h2>The design</h2>
+      <p>The solution was the visualisation itself — a way of representing the full recipe so that a 2-minute step and a 3-day step stayed legible side by side, with order, dependencies, and responsibilities readable at a glance. That design was eventually implemented in the tool.</p>
+      <p>Producing the visualisations was its own problem: placing 200 elements by hand wasn't viable for every recipe. The recipe data lived in Excel, so I made Excel do the layout — formulas computed the position and size of every element from its timing, duration, and order, feeding a Figma automation that generated the result. The automation wasn't the solution; it just turned days of manual layout into a few minutes per recipe — which mattered for what happened next.</p>
+    </div>
+
+    <div data-reveal class="cs-block">
+      <h2>Validation by demand</h2>
+      <p>I checked readability with a small group of users, but the strongest validation wasn't a study. Before the design existed in the tool, users started requesting visualisations of more and more recipes — because errors that were invisible in the Excel files were immediately apparent in visual form. The spreadsheets were the source of truth for production, yet complex dependencies and timing were nearly impossible to verify in them.</p>
+      <blockquote class="cs-quote">When users queue up for the design artifact itself — before the product that contains it exists — readability is no longer a hypothesis.</blockquote>
+    </div>
+
+    <div data-reveal class="cs-block">
+      <div class="k">02</div>
+      <h2>What this project says about my work</h2>
+      <ul>
+        <li>Information density at scale is a distinct design skill — different from layout or interaction design, and underrated.</li>
+        <li>Demand is the strongest validation. When users want the design artifact before the product ships, the design works.</li>
+        <li>Automation multiplies design output. Excel formulas driving Figma generation is unconventional, but it let me meet that demand in minutes instead of days.</li>
+      </ul>
+    </div>
+
+    <div class="cs-nda-note">
+      <p>This was an internal enterprise product under NDA, so this is a written narrative without screenshots. Happy to walk through the work and artefacts in more detail in person.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-prevnext">
+  <div data-reveal class="cs-prevnext-inner">
+    <a class="side prev" href="developer-portal.html">
+      <span class="side-label">← Previous</span>
+      <span class="side-title">Internal developer portal</span>
+    </a>
+    <a class="cs-allwork" href="index.html#work">All work</a>
+    <a class="side next" href="gene-research.html">
+      <span class="side-label">Next →</span>
+      <span class="side-title">Gene research exploration tool</span>
+    </a>
+  </div>
+</section>
+
+<footer class="site">
+  <div>Jiří Šindelář — Senior UX / Product Designer</div>
+  <div>Prague, Czechia · jiri.sin@gmail.com</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
