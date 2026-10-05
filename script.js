@@ -54,3 +54,37 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('resize', updateButtons);
   updateButtons();
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.rec-tab'));
+  if (!tabs.length) return;
+
+  var toggles = Array.prototype.slice.call(document.querySelectorAll('.rec-toggle'));
+  var setOpen = function (btn, open) {
+    document.getElementById(btn.getAttribute('aria-controls')).hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? 'Show less' : 'Show more';
+  };
+  toggles.forEach(function (btn) {
+    btn.addEventListener('click', function () { setOpen(btn, btn.getAttribute('aria-expanded') !== 'true'); });
+  });
+
+  var select = function (i, focus) {
+    tabs.forEach(function (tab, j) {
+      var on = i === j;
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      tab.tabIndex = on ? 0 : -1;
+      document.getElementById(tab.getAttribute('aria-controls')).classList.toggle('is-active', on);
+    });
+    toggles.forEach(function (t) { setOpen(t, false); });
+    if (focus) tabs[i].focus();
+  };
+
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { select(i); });
+    tab.addEventListener('keydown', function (e) {
+      var d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (d) { e.preventDefault(); select((i + d + tabs.length) % tabs.length, true); }
+    });
+  });
+});
