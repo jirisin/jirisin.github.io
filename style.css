@@ -233,12 +233,13 @@ body {
 .case-card .read .arrow { color: var(--accent); }
 
 /* ---------- Recommendations ---------- */
-.recs-section { max-width: 1200px; margin: 0 auto; padding: 110px 56px 130px; }
+.recs-section { background: var(--bg-alt); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.recs-inner { max-width: 1200px; margin: 0 auto; padding: 130px 56px; }
 .rec-layout { display: grid; grid-template-columns: 120px 1fr; gap: 72px; margin-top: 56px; align-items: start; }
 .rec-tabs { display: flex; flex-direction: column; gap: 26px; align-items: center; padding-top: 28px; }
 .rec-tab {
   width: 64px; height: 64px; border-radius: 50%; padding: 0; cursor: pointer;
-  border: 1px solid var(--line); background: var(--bg-alt); color: var(--muted);
+  border: 1px solid var(--line); background: var(--bg); color: var(--muted);
   font-family: var(--font-mono); font-size: 15px; letter-spacing: .04em;
   opacity: .6; transition: transform .25s, opacity .25s, border-color .25s, color .25s;
 }
@@ -268,7 +269,6 @@ body {
 .rec-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* ---------- Approach ---------- */
-.approach-section { background: var(--bg-alt); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
 .approach-inner { max-width: 1200px; margin: 0 auto; padding: 130px 56px; }
 .approach-lede { margin: 0 0 64px; font-size: 18px; line-height: 1.6; color: var(--muted); max-width: 620px; }
 .principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 72px; }
@@ -386,7 +386,7 @@ footer.site {
   .principle-grid { grid-template-columns: 1fr; }
   .rec-layout { grid-template-columns: 1fr; gap: 32px; }
   .rec-tabs { flex-direction: row; justify-content: center; gap: 22px; padding-top: 0; }
-  .recs-section { padding-left: 28px; padding-right: 28px; }
+  .recs-inner { padding-left: 28px; padding-right: 28px; }
   .cs-metabar-inner { grid-template-columns: 1fr; }
   .cs-metrics { justify-content: flex-start; }
   .cs-metrics .metric-item { text-align: left; }
