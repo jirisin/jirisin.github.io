@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lattice — gene group explorer (prototype)</title>
+<meta name="description" content="Clickable prototype of a gene exploration tool. Fictional data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="../favicon-64.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="v3.css">
+<link rel="stylesheet" href="dropdown.css">
+<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="nav.css">
+</head>
+<body>
+<div class="pstrip"><a class="pback" href="../gene-research.html"><span>←</span> Back to case study</a><span class="ptitle"><b>Gene research exploration tool</b> &nbsp;/&nbsp; Clickable prototype</span><span class="pnote">Jiří Šindelář &nbsp;·&nbsp; fictional data, not the real MSD tool</span></div>
+<div id="bluebg"><i></i></div>
+<header class="bar">
+  <a class="brand" href="#/"><span class="logo"></span>Lattice</a>
+  <nav class="steps" id="steps"></nav>
+  <span class="sp"></span>
+  <div class="user" id="user"><button type="button" class="ubtn" aria-haspopup="menu" title="Jiří Šindelář"><img src="../portrait.png" alt="Jiří Šindelář"><svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.5l5 5 5-5"/></svg></button>
+    <div class="umenu" role="menu"><div class="uhead"><b>Jiří Šindelář</b><small>jiri.sin@gmail.com</small></div><button type="button" data-u="settings" role="menuitem">Settings</button><button type="button" data-u="logout" role="menuitem">Log out</button></div></div>
+</header>
+<main id="app"></main>
+<div id="tip"></div>
+<div id="toast"></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
