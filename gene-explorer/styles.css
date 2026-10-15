@@ -33,7 +33,7 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -.01em; line-height: 1.12; }
 .back:hover { color: var(--ink); }
 
 /* ---------- layout ---------- */
-main { padding: 36px 32px 90px; max-width: 1560px; margin: 0 auto; }
+main { padding: 36px 32px 90px; margin: 0 auto; }
 .page { animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .eyebrow { font-size: 13px; color: var(--ink2); letter-spacing: .02em; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }

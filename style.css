@@ -396,3 +396,22 @@ footer.site {
   .work-header { align-items: flex-start; }
   .carousel-wrap { --carousel-inset: 28px; }
 }
+
+/* project imagery */
+.case-card.has-pop { padding-bottom: 200px; }
+.case-card .pop-clip { position: absolute; inset: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
+.case-card .pop { position: absolute; right: -64px; bottom: -48px; width: 410px; padding: 4px; border-radius: 20px; background: linear-gradient(135deg, rgba(127,211,176,.55) 0%, rgba(127,211,176,.35) 45%, rgba(255,255,255,.28) 100%); box-shadow: 0 24px 50px -12px rgba(0,0,0,.6); transition: transform .45s ease; transform-origin: 100% 100%; }
+.case-card .pop img { display: block; width: 100%; height: auto; border-radius: 16px; }
+.case-card .pop i { position: absolute; inset: 4px; border-radius: 16px; border: 1px solid rgba(255,255,255,.5); pointer-events: none; }
+.case-card.has-pop:hover .pop { transform: translate(0px, -6px); }
+.cs-shot { max-width: 1100px; margin: 0 auto; padding: 56px 56px 0; }
+.cs-shot figure { margin: 0; }
+.cs-shot img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 30px 70px -30px rgba(0,0,0,.7); }
+.cs-shot figcaption { margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+@media (max-width: 720px) { .cs-shot { padding: 36px 20px 0; } }
+
+.cs-shot .shot-link { position: relative; display: block; border-radius: 14px; }
+.cs-shot .shot-link img { transition: transform .4s ease, box-shadow .4s ease, border-color .3s ease; }
+.cs-shot .shot-link:hover img { transform: translateY(-4px); border-color: rgba(127,211,176,.5); box-shadow: 0 36px 80px -28px rgba(0,0,0,.75); }
+.cs-shot .shot-cta { position: absolute; right: 20px; bottom: 20px; display: inline-flex; gap: 9px; align-items: center; padding: 11px 18px; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; opacity: 0; transform: translateY(6px); transition: opacity .3s ease, transform .3s ease; }
+.cs-shot .shot-link:hover .shot-cta, .cs-shot .shot-link:focus-visible .shot-cta { opacity: 1; transform: none; }

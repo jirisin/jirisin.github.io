@@ -34,7 +34,7 @@
   const H = (tail = '') => (cur ? `#/i/${cur.id}/${tail}` : '#/');
   function enter(id) {
     const inv = ST.inv.find((x) => x.id === id); if (!inv) return false;
-    if (cur !== inv) UI = { sizes: ['cap', 'mid', 'low', 'tiny'], cats: CATS.map((c) => c.id), min: 0, q: '', favOnly: false, sort: 'score', view: 'list', cmp: null };
+    if (cur !== inv) UI = { sizes: ['cap', 'mid', 'low', 'tiny'], cats: CATS.map((c) => c.id), min: 0, q: '', favOnly: false, sort: 'score', cmp: null };
     cur = inv; C = context(inv); rescore(C, inv.w); return true;
   }
   const touch = () => { cur.updated = Date.now(); save(); };
@@ -126,8 +126,8 @@
     const sel = `<select id="invsel">${cur ? '' : '<option value="" selected disabled>Select…</option>'}${opts.map((i) => `<option value="${i.id}" ${cur && cur.id === i.id ? 'selected' : ''}>${esc(i.name || 'Untitled investigation')}</option>`).join('')}</select>`;
     $('#steps').innerHTML = `<div class="invm ${on === 'inv' ? 'on' : ''}">${cur ? `<a href="${H('define')}" title="Investigation setup">Investigation:</a>` : '<span class="dis-l">Investigation:</span>'}${sel}</div>`
       + (cur
-        ? `<a href="${H('groups')}" class="${on === 'groups' ? 'on' : ''}">Gene groups</a><a href="${H('shortlist')}" class="${on === 'short' ? 'on' : ''}">Short lists <span class="badge" id="badge">${cur.favs.length + (cur.gfavs || []).length}</span></a>`
-        : `<span ${off}>Gene groups</span><span ${off}>Short lists</span>`);
+        ? `<a href="${H('groups')}" class="${on === 'groups' ? 'on' : ''}">Gene groups</a><a href="${H('shortlist')}" class="${on === 'short' ? 'on' : ''}">Short list<span class="badge" id="badge">${cur.favs.length + (cur.gfavs || []).length}</span></a>`
+        : `<span ${off}>Gene groups</span><span ${off}>Short list</span>`);
     $('#invsel').onchange = (e) => { const sec = !cur ? 'groups' : p[2] === 'shortlist' ? 'shortlist' : p[2] === 'define' ? 'define' : 'groups'; location.hash = '#/i/' + e.target.value + '/' + sec; };
   }
   const updBadge = () => { const b = $('#badge'); if (b) b.textContent = cur.favs.length + (cur.gfavs || []).length; };
@@ -185,9 +185,9 @@
       const ps = [...papers()].sort({ genes: (a, b) => b.genes.length - a.genes.length, year: (a, b) => b.year - a.year, cites: (a, b) => b.cites - a.cites }[UI.psort || 'genes']);
       $('#left').innerHTML = `
         <section class="sect"><h2><b>1</b>Therapeutic area</h2><p>The broad field you are working in.</p>
-          <div class="body acards">${AREAS.map((a) => `<button class="acard ${cur.area === a.id ? 'on' : ''}" data-area="${a.id}"><span class="ring" style="--c:#4cc6e2"></span><b>${a.name}</b><small>${a.diseases.length} diseases</small></button>`).join('')}</div></section>
+          <div class="body acards">${AREAS.map((a) => `<button class="acard ${cur.area === a.id ? 'on' : ''}" data-area="${a.id}"><span class="bx"></span><b>${a.name}</b><small>${a.diseases.length} diseases</small></button>`).join('')}</div></section>
         <section class="sect ${area ? '' : 'locked'}"><h2><b>2</b>Disease</h2><p>${area ? 'The specific disease to find genes for.' : 'Choose a therapeutic area first.'}</p>
-          <div class="body dcards">${area ? area.diseases.map((d) => `<button class="dcard ${cur.disease === d.id ? 'on' : ''}" data-dis="${d.id}"><b>${d.name}</b><small>${d.papers.length} papers · ${new Set(d.papers.flatMap((p) => p.genes)).size} genes linked</small></button>`).join('') : ''}</div></section>
+          <div class="body dcards">${area ? area.diseases.map((d) => `<button class="dcard ${cur.disease === d.id ? 'on' : ''}" data-dis="${d.id}"><span class="bx"></span><b>${d.name}</b><small>${d.papers.length} papers · ${new Set(d.papers.flatMap((p) => p.genes)).size} genes linked</small></button>`).join('') : ''}</div></section>
         <section class="sect ${cur.disease ? '' : 'locked'}"><h2><b>3</b>Research papers</h2><p>${cur.disease ? 'Genes linked to the disease by the papers you tick become the known genes. Fictional papers.' : 'Choose a disease first.'}</p>
           <div class="body">${cur.disease ? `<div class="ptool"><span class="muted"><b style="font-weight:600;color:var(--ink)">${cur.papers.length}</b> of ${ps.length} selected</span><span class="sp"></span><button class="lnk" data-psel="all">Select all</button><button class="lnk" data-psel="rec">Recommended</button><button class="lnk" data-psel="none">Clear</button>
             <select id="psort"><option value="genes">Most genes linked</option><option value="year">Newest</option><option value="cites">Most cited</option></select></div>
@@ -201,8 +201,7 @@
     function pv() {
       const c = context(cur); rescore(c, cur.w); const n = c.rows.filter((r) => r.nK >= cur.minKnown).length;
       $('#pv').innerHTML = `<div class="rad">${radar({ series: [{ vals: AXES.map((a) => cur.w[a.cat] * 0.9 + 0.1), k: 'c' }], w: true })}</div>
-        <div class="two"><div><div class="big">${c.K.size}</div><div class="sub">known genes</div></div><div><div class="big amb">${cur.disease ? n : '–'}</div><div class="sub">gene groups<br>to explore</div></div></div>
-        <div class="cap-note"><span class="ring" style="--c:#4cc6e2"></span><span>${cur.disease ? `Gene groups are fixed — the same <b style="font-weight:500;color:var(--ink)">${UNIVERSE.length}</b> for everyone. Your papers decide which ones light up.` : 'Choose a disease and papers to see how many gene groups are relevant.'}</span></div>`;
+        <div class="two"><div><div class="big">${c.K.size}</div><div class="sub">known genes</div></div><div><div class="big amb">${cur.disease ? n : '–'}</div><div class="sub">gene groups<br>to explore</div></div></div>`;
     }
     draw();
     $('#left').onclick = (e) => {
@@ -229,76 +228,74 @@
   function filtered() {
     const f = UI, q = f.q.trim().toUpperCase();
     const key = { score: (g) => -g.score, size: (g) => -g.size, cohesion: (g) => -g.cohesion, known: (g) => -g.nK, enr: (g) => -g.enr, novel: (g) => -g.novel }[f.sort];
-    return C.rows.filter((g) => g.nK >= cur.minKnown && f.sizes.includes(sizeBucket(g.size)) && f.cats.includes(g.dom) && g.score >= f.min && (!q || g.id.includes(q) || g.members.some((m) => m.startsWith(q))) && (!f.favOnly || favCount(g) > 0)).sort((a, b) => key(a) - key(b));
+    return C.rows.filter((g) => g.nK >= cur.minKnown  && (!q || g.id.includes(q) || g.members.some((m) => m.startsWith(q)))).sort((a, b) => key(a) - key(b));
   }
-  function groupRow(g, i, q) {
-    const rg = rankedGenes(g), hits = q ? g.members.filter((m) => m.startsWith(q)).slice(0, 3) : [];
-    const chips = [...hits, ...rg.filter((m) => !hits.includes(m)).slice(0, 5 - hits.length)].map((m) => `<span class="gchip ${hits.includes(m) ? 'hit' : C.K.has(m) ? 'kn' : ''}">${m}</span>`);
-    const fc = favCount(g);
-    return `<div class="gr" data-go="${H('group/' + g.id)}" style="animation-delay:${Math.min(i, 12) * 40}ms">
-      <div class="rk">${g.rank}</div>
-      <div><div class="gname">${g.id} <span class="gchip lab">${g.label}</span></div><div class="gwhy">${WHY(C, g)}</div><div class="gchips">${chips.join('')}<span class="gchip more">+${g.size - chips.length}</span></div></div>
-      <div class="gsize"><b>${g.size}</b> genes<div class="bar2 ${g.size === 100 ? '' : 'am'}"><i style="width:${g.size}%"></i><u></u></div><small>${g.size === 100 ? 'at the 100 cap' : g.size + '% of cap'}</small></div>
-      <div class="gsize"><b class="cy">${g.nK}</b> known<div class="bar2"><i style="width:${clamp(g.nK / 12) * 100}%"></i></div><small>${g.enr.toFixed(1)}× expected</small></div>
-      <div>${miniRadar(g.prof)}</div>
-      <div><div class="gscore">${g.score}</div><div class="bar2" style="width:84px"><i style="width:${g.score}%"></i></div></div>
-      <div class="gstat"><b>${g.cohesion.toFixed(2)}</b><small>cohesion</small></div>
-      <div class="gstat">${gfavBtn(g.id)}<small>${fc ? fc + ' gene' + (fc > 1 ? 's' : '') : 'favourite'}</small></div>
-      <div class="chev">${I.fwd}</div></div>`;
+  /* ---- compact group table: size dot, paper-group significance bars, tractability, risk, pathways ---- */
+  const PATHWAYS = ['Lipid metabolism', 'Cholesterol biosynthesis', 'Fatty acid beta-oxidation', 'Insulin signalling', 'PI3K–Akt signalling', 'mTOR signalling', 'AMPK signalling', 'Bile acid synthesis', 'Lipoprotein remodelling', 'Complement cascade', 'Innate immune signalling', 'NF-κB signalling', 'Interferon response', 'Apoptosis', 'p53 pathway', 'Oxidative phosphorylation', 'Glycolysis', 'Gluconeogenesis', 'Triglyceride synthesis', 'Hepatic stellate activation', 'TGF-β signalling', 'Wnt signalling', 'Notch signalling', 'MAPK cascade', 'Calcium signalling', 'Cardiac conduction', 'Platelet activation', 'Coagulation cascade', 'Extracellular matrix', 'Autophagy', 'Unfolded protein response', 'Peroxisome function', 'Nuclear receptor signalling', 'Retinoid metabolism', 'Steroid hormone synthesis', 'Adipogenesis'];
+  const geneWays = {};
+  const waysOf = (sym) => geneWays[sym] || (geneWays[sym] = (() => { const h = D.hash(sym + 'pw'), n = h % 5 === 0 ? 0 : 1 + (h >> 3) % 3, o = []; for (let k = 0; k < n; k++) o.push((D.hash(sym + k) >>> 2) % PATHWAYS.length); return [...new Set(o)]; })());
+  const TRACT = ['Small-molecule tractable', 'Antibody tractable', 'Known drug', 'Ligandability'].map((n) => COLS.findIndex((c) => c.name === n));
+  const RISK = ['Safety liability', 'Essentiality', 'Off-target risk'].map((n) => COLS.findIndex((c) => c.name === n));
+  const SIGT = 0.985; /* only strongly over-represented groups get a visible bar */
+  const memSet = new WeakMap(), gcache = new Map();
+  /* significance: chance that a random group of this size would hold FEWER paper genes than observed (0 = no overlap, 1 = far more than expected) */
+  function sig(K, n, obs) {
+    if (obs <= 0 || !K) return 0;
+    const p = K / D.POOL.length; let c = Math.pow(1 - p, n), t = 0;
+    for (let i = 0; i < obs; i++) { t += c; c *= ((n - i) / (i + 1)) * (p / (1 - p)); }
+    return clamp((t - SIGT) / (1 - SIGT));
   }
-  function landscape(list) {
-    const W = 1000, H2 = 620, L = 70, Rr = 50, T = 50, B = 70;
-    const X = (v) => L + ((v - 0.4) / 0.6) * (W - L - Rr), Y = (v) => T + (1 - (v - 36) / 64) * (H2 - T - B);
-    const pts = list.map((g) => ({ g, x: X(g.cohesion), y: Y(g.score), r: 7 + Math.sqrt(g.size) * 0.9 }));
-    for (let it = 0; it < 120; it++) for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) { const a = pts[i], b = pts[j], dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 0.1, min = a.r + b.r + 8; if (d < min) { const f = (min - d) / 2 / d; a.x -= dx * f; a.y -= dy * f; b.x += dx * f; b.y += dy * f; } }
-    pts.forEach((p) => { p.x = Math.max(L + p.r, Math.min(W - Rr - p.r, p.x)); p.y = Math.max(T + p.r, Math.min(H2 - B - p.r, p.y)); });
-    const P = Object.fromEntries(pts.map((p) => [p.g.id, p]));
-    let o = `<svg viewBox="0 0 ${W} ${H2}"><g stroke="#e6e8ee" fill="none"><line x1="${L}" y1="${Y(68)}" x2="${W - Rr}" y2="${Y(68)}"/><line x1="${X(0.7)}" y1="${T}" x2="${X(0.7)}" y2="${H2 - B}"/></g>
-      <g font-size="13" fill="#6c7290"><text x="${L}" y="${Y(68) + 22}">Low cohesion</text><text x="${W - Rr}" y="${Y(68) + 22}" text-anchor="end">High cohesion</text><text x="${X(0.7) + 12}" y="${T + 6}">Higher score</text><text x="${X(0.7) + 12}" y="${H2 - B + 4}">Lower score</text></g>`;
-    const pairs = [], top = list.slice(0, 40);
-    for (let i = 0; i < top.length; i++) for (let j = i + 1; j < top.length; j++) { const a = top[i], b = top[j], sb = new Set(b.members), ov = a.members.filter((m) => sb.has(m)).length / Math.min(a.size, b.size), d = Math.hypot(P[a.id].x - P[b.id].x, P[a.id].y - P[b.id].y); if (ov > 0.1 && d < 230) pairs.push([a, b, ov]); }
-    pairs.sort((a, b) => b[2] - a[2]).slice(0, 24).forEach(([a, b]) => (o += `<line x1="${P[a.id].x}" y1="${P[a.id].y}" x2="${P[b.id].x}" y2="${P[b.id].y}" stroke="${CAT[a.dom].color}" stroke-dasharray="3 4" stroke-opacity=".7"/>`));
-    pts.slice().sort((a, b) => b.g.size - a.g.size).forEach(({ g, x, y, r }) => {
-      const c = CAT[g.dom];
-      o += `<g class="pt" data-go="${H('group/' + g.id)}" data-gid="${g.id}"><circle class="halo" cx="${x}" cy="${y}" r="${r + 7}" fill="${c.color}" fill-opacity=".14"/><circle cx="${x}" cy="${y}" r="${r}" fill="${c.color}" fill-opacity=".55" stroke="${c.dark}" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="${r * 0.38}" fill="#fff"/>`;
-      if (g.rank <= 5) o += `<text x="${x}" y="${y + r + 17}" text-anchor="middle" font-size="12.5" fill="#1f2240" font-weight="500" paint-order="stroke" stroke="#fff" stroke-width="4">${g.id}</text>`;
-      o += '</g>';
-    });
-    return o + '</svg>';
+  function paperGroups() {
+    const m = new Map();
+    C.papers.forEach((p) => { if (!m.has(p.type)) m.set(p.type, []); m.get(p.type).push(p); });
+    return [...m.entries()].map(([type, ps]) => ({ type, ps, all: new Set(ps.flatMap((p) => p.genes)) }));
+  }
+  function groupStats(g, PG) {
+    const key = cur.id + '|' + cur.papers.join() + '|' + g.id; if (gcache.has(key)) return gcache.get(key);
+    let ms = memSet.get(g); if (!ms) memSet.set(g, (ms = new Set(g.members)));
+    const hit = (genes) => genes.reduce((n, x) => n + (ms.has(x) ? 1 : 0), 0);
+    const papers = PG.map((pg) => ({ ps: pg.ps.map((p) => ({ p, v: sig(p.genes.length, g.size, hit(p.genes)) })), all: sig(pg.all.size, g.size, hit([...pg.all])) }));
+    const mean = (ix) => ix.map((k) => { const v = g.members.map((m) => (GENES[m].cells[k] ? GENES[m].cells[k][0] : 0)); return v.reduce((x, y) => x + y, 0) / v.length; });
+    const tract = mean(TRACT).map((v) => clamp((v - 0.12) / 0.5));
+    const risk = RISK.map((k) => clamp(g.members.filter((m) => GENES[m].cells[k] && GENES[m].cells[k][0] > 0.9).length / 9));
+    const cnt = {}; g.members.forEach((m) => waysOf(m).forEach((w) => (cnt[w] = (cnt[w] || 0) + 1)));
+    const ways = Object.keys(cnt).filter((w) => cnt[w] >= Math.max(2, g.size * 0.035)).sort((x, y) => cnt[y] - cnt[x]).map((w) => PATHWAYS[w]);
+    const o = { papers, tract, risk, ways }; gcache.set(key, o); return o;
+  }
+  const bar = (v, cls, tip) => '<i class="vb ' + cls + '" style="--p:' + Math.round(v * 100) + '%" title="' + tip + '"></i>';
+  function groupRow(g, i, q, PG) {
+    const st = groupStats(g, PG), d = Math.max(4, g.size * 0.28);
+    return '<div class="gr" data-go="' + H('group/' + g.id) + '" style="animation-delay:' + Math.min(i, 12) * 25 + 'ms">'
+      + '<div class="gdot"><i style="width:' + d.toFixed(1) + 'px;height:' + d.toFixed(1) + 'px" title="' + g.size + ' genes"></i></div>'
+      + '<div class="gname"><a href="' + H('group/' + g.id) + '">' + g.id + '</a></div>'
+      + st.papers.map((pp, k) => '<div class="vbs">' + bar(pp.all, 'pv big', esc(PG[k].type) + ' papers together · ' + pp.all.toFixed(2)) + pp.ps.map((x) => bar(x.v, 'pv', esc(x.p.title) + ' · ' + x.v.toFixed(2))).join('') + '</div>').join('')
+      + '<div class="vbs">' + st.tract.map((v, k) => bar(v, 'tv', COLS[TRACT[k]].name + ' · ' + v.toFixed(2))).join('') + '</div>'
+      + '<div class="vbs">' + st.risk.map((v, k) => bar(v, 'rv', COLS[RISK[k]].name + ' · ' + v.toFixed(2))).join('') + '</div>'
+      + '<div class="pw"><b>' + st.ways.length + '</b><span>' + esc(st.ways.join(', ')) + '</span></div>'
+      + '<div class="gstat">' + gfavBtn(g.id, 'xs') + '</div></div>';
   }
   function pageGroups() {
     const f = UI, shown0 = C.rows.filter((g) => g.nK >= cur.minKnown);
     app.innerHTML = `<div class="page">
       <div class="ghead"><div><div class="eyebrow"><i></i>${esc(diseaseName())} · <a href="${H('define')}" style="text-decoration:underline">edit</a></div>
-        <h1>Gene groups</h1>
-        <p class="lede">Fixed groups of interacting genes, ranked by how rich they are in genes your ${cur.papers.length} selected paper${cur.papers.length === 1 ? '' : 's'} link to ${esc(diseaseName())}. The rest of each group are candidate targets.</p></div>
-        <div class="kpis"><div class="kpi"><div class="n" id="k1">${shown0.length}</div><div class="l">relevant groups</div></div><div class="kpi"><div class="n">${C.K.size}</div><div class="l">known genes</div></div><div class="kpi"><div class="n amb">${cur.favs.length}</div><div class="l">favourited</div></div></div></div>
-      <div class="gwrap"><aside class="rail">
-        <div class="search">${I.search}<input id="q" placeholder="Group ID or gene, e.g. PCSK9" value="${esc(f.q)}" autocomplete="off"></div>
-        <div><h3>Known genes ≥ <span id="mkv" class="num">${cur.minKnown}</span></h3><input type="range" min="1" max="10" value="${cur.minKnown}" id="mk" style="--p:${((cur.minKnown - 1) / 9) * 100}%"></div>
-        <div><h3>Group size</h3>${[['cap', '100 genes (capped)'], ['mid', '50 – 99 genes'], ['low', '10 – 49 genes'], ['tiny', '5 – 9 genes']].map(([k, l]) => `<label class="ck"><input type="checkbox" data-size="${k}" ${f.sizes.includes(k) ? 'checked' : ''}><span class="bx"></span>${l}<span class="ct">${shown0.filter((g) => sizeBucket(g.size) === k).length}</span></label>`).join('')}</div>
-        <div><h3>Strongest evidence</h3>${CATS.map((c) => `<label class="ck"><input type="checkbox" data-cat="${c.id}" ${f.cats.includes(c.id) ? 'checked' : ''}><span class="bx" style="--c:${c.color}"></span>${c.name}<span class="ct">${shown0.filter((g) => g.dom === c.id).length}</span></label>`).join('')}</div>
-        <div><h3>Minimum score · <span id="minsv" class="num">${f.min}</span></h3><input type="range" min="0" max="90" step="5" value="${f.min}" id="mins" style="--p:${(f.min / 90) * 100}%"></div>
-        <label class="ck"><input type="checkbox" id="fo" ${f.favOnly ? 'checked' : ''}><span class="bx" style="--c:#f5a63c"></span>With favourited genes</label>
-      </aside><section><div class="toolbar"><div class="seg" id="view"><button data-v="list" class="${f.view === 'list' ? 'on' : ''}">List</button><button data-v="map" class="${f.view === 'map' ? 'on' : ''}">Landscape</button></div>
+        <h1>Gene groups</h1></div>
+        <div class="kpis"><div class="kpi"><div class="n" id="k1">${shown0.length}</div><div class="l">relevant groups</div></div><div class="kpi"><div class="n">${C.K.size}</div><div class="l">known genes</div></div><div class="kpi"><div class="n amb">${cur.favs.length + (cur.gfavs || []).length}</div><div class="l">favourited</div></div></div></div>
+      <div class="gwrap"><section><div class="toolbar"><div style="display:flex;gap:16px;align-items:center"><div class="search">${I.search}<input id="q" placeholder="Group ID or gene, e.g. PCSK9" value="${esc(f.q)}" autocomplete="off"></div></div>
         <div style="display:flex;gap:12px;align-items:center"><span class="muted" id="shown"></span><select id="sort">${[['score', 'Sort: Score'], ['known', 'Sort: Known genes'], ['enr', 'Sort: Enrichment'], ['size', 'Sort: Group size'], ['cohesion', 'Sort: Cohesion'], ['novel', 'Sort: Understudied genes']].map(([v, l]) => `<option value="${v}" ${f.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
         <div id="gbody"></div></section></div></div>`;
     const draw = () => {
       const list = filtered(), q = f.q.trim().toUpperCase();
       $('#shown').textContent = `${list.length} of ${UNIVERSE.length} groups`;
-      if (!list.length) { $('#gbody').innerHTML = `<div class="glist"><div class="empty">No gene groups match these filters.</div></div>`; return; }
-      if (f.view === 'list') $('#gbody').innerHTML = `<div class="gh"><span>#</span><span>Gene group</span><span>Size</span><span>Known genes</span><span>Evidence</span><span>Score</span><span></span><span></span><span></span></div><div class="glist">${list.slice(0, 60).map((g, i) => groupRow(g, i, q)).join('')}${list.length > 60 ? `<div class="more60">Showing top 60 of ${list.length} — narrow with the filters</div>` : ''}</div>`;
-      else $('#gbody').innerHTML = `<div class="land">${landscape(list.slice(0, 80))}<div class="lgd">${CATS.map((c) => `<span><span class="ring" style="--c:${c.color}"></span>${c.name}</span>`).join('')}<span class="faint">· ring size = gene count · dashed line = shared genes</span></div></div>`;
+      if (!list.length) { $('#gbody').innerHTML = `<div class="glist"><div class="empty">No gene groups match your search.</div></div>`; return; }
+      {
+        const PG = paperGroups(), pw = (pg) => Math.max(pg.ps.length * 9 + 16, pg.type.length * 7.4 + 34);
+        const tpl = ['26px', '84px', ...PG.map((pg) => pw(pg) + 'px'), '52px', '44px', 'minmax(0,1fr)', '34px'].join(' ');
+        $('#gbody').innerHTML = '<div class="glx" style="--tpl:' + tpl + '"><div class="gh"><span></span><span>Gene group</span>' + PG.map((pg) => '<span>' + esc(pg.type) + '<small> · ' + pg.ps.length + '</small></span>').join('') + '<span>Tractability</span><span>Risk</span><span>Pathways</span><span></span></div><div class="glist">' + list.slice(0, 60).map((g, i) => groupRow(g, i, q, PG)).join('') + (list.length > 60 ? '<div class="more60">Showing top 60 of ' + list.length + ' — use search to narrow</div>' : '') + '</div></div>';
+      }
     };
     draw();
     $('#q').oninput = (e) => { f.q = e.target.value; draw(); };
-    $$('[data-size]').forEach((c) => (c.onchange = () => { f.sizes = $$('[data-size]').filter((x) => x.checked).map((x) => x.dataset.size); draw(); }));
-    $$('[data-cat]').forEach((c) => (c.onchange = () => { f.cats = $$('[data-cat]').filter((x) => x.checked).map((x) => x.dataset.cat); draw(); }));
-    $('#mk').oninput = (e) => { cur.minKnown = +e.target.value; e.target.style.setProperty('--p', ((cur.minKnown - 1) / 9) * 100 + '%'); $('#mkv').textContent = cur.minKnown; $('#k1').textContent = C.rows.filter((g) => g.nK >= cur.minKnown).length; save(); draw(); };
-    $('#mins').oninput = (e) => { f.min = +e.target.value; e.target.style.setProperty('--p', (f.min / 90) * 100 + '%'); $('#minsv').textContent = f.min; draw(); };
-    $('#fo').onchange = (e) => { f.favOnly = e.target.checked; draw(); };
     $('#sort').onchange = (e) => { f.sort = e.target.value; draw(); };
-    $('#view').onclick = (e) => { const b = e.target.closest('[data-v]'); if (!b) return; f.view = b.dataset.v; $$('#view button').forEach((x) => x.classList.toggle('on', x === b)); draw(); };
     app.onmouseover = (e) => { const p = e.target.closest('.pt'); if (!p) return hideTip(); const g = C.by[p.dataset.gid]; showTip(`<b>${g.id}</b><div class="sub">${g.label} · ${SIZE_NOTE(g)}</div><div class="big">${g.score}</div><div class="muted">${g.nK} known genes · cohesion ${g.cohesion.toFixed(2)}</div>`); };
     app.onmouseleave = hideTip;
   }
@@ -364,7 +361,7 @@
       <div class="grid2"><div class="card"><div class="cardh"><h2>Evidence profile</h2><small>vs average of all groups</small></div><div class="rad">${radar({ series: [{ vals: g.prof.map(gp), k: 'c' }, { vals: C.avg.map(gp), k: 'a' }], w: true })}</div>
           <div class="legend2"><span><span class="ring" style="--c:#4cc6e2"></span>${g.id}</span><span><span class="ring" style="--c:#f5a63c"></span>All groups</span></div></div>
         <div class="card"><div class="cardh"><h2>Interaction network</h2><small>hover a gene · click to open</small></div><div class="netwrap">${networkSvg(g)}</div>
-          <div class="legend2"><span><span class="ring" style="--c:#4cc6e2;--k:100%"></span>Known gene</span>${CATS.map((c) => `<span><span class="ring" style="--c:${c.color}"></span>${c.name}</span>`).join('')}</div></div></div>
+          <div class="nleg"><div class="lr"><span class="kmark"></span><span><b>Known gene</b> — linked to ${esc(diseaseName())} by your selected papers</span></div><div class="lr"><span class="lcats">${CATS.map((c) => `<span><span class="ring" style="--c:${c.color}"></span>${c.name}</span>`).join('')}</span></div><div class="lr sm"><span><b>Other genes</b> — candidates, coloured by the evidence category where they score highest</span></div><div class="lr sm"><span><b>Dot size</b> = gene score · <b>line thickness</b> = interaction strength · hover a gene to highlight its neighbours</span></div></div></div></div>
       <div class="grid2" style="margin-top:24px">
         <div class="card"><div class="cardh"><h2>Highest-scoring genes</h2><a class="lnk" href="${H('group/' + g.id + '/genes')}">All ${g.size} genes ${I.fwd}</a></div>
           <div class="inter">${rg.slice(0, 8).map((m, i) => `<div class="int-r2">${favBtn(m, g.id, 'xs')}<span class="i">${i + 1}</span><a href="${H('gene/' + m + '?g=' + g.id)}"><b>${m}</b>${C.K.has(m) ? '<span class="kd"></span>' : ''}</a><div class="bar2"><i style="width:${pct(gs(g, m))}%"></i></div><span class="v num">${pct(gs(g, m))}</span></div>`).join('')}</div></div>

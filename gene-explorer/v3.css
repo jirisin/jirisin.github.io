@@ -164,3 +164,56 @@ body.home .user img { border-color: rgba(255,255,255,.9); box-shadow: none; }
 .pbar i { background: #4cc6e2; box-shadow: none; }
 .pbar { position: relative; overflow: visible; }
 .pbar i { position: absolute; top: -1px; bottom: -1px; left: -1px; height: auto; box-sizing: border-box; background: var(--cyan-l); border: 1px solid var(--cyan); box-shadow: none; min-width: 8px; }
+
+/* setup: same radio circles and left layout for areas, diseases and papers */
+.acard, .dcard { display: grid; grid-template-columns: 22px 1fr; column-gap: 14px; row-gap: 3px; align-items: start; }
+.acard .bx, .dcard .bx { grid-row: 1 / span 2; width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--mute); margin-top: 1px; display: grid; place-items: center; background: #fff; }
+.acard b, .dcard b, .acard small, .dcard small { grid-column: 2; }
+.acard.on .bx, .dcard.on .bx, .pp.on .bx { background: #fff; border-color: var(--cyan); }
+.acard.on .bx::after, .dcard.on .bx::after, .pp.on .bx::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); }
+.pp .bx { background: #fff; }
+
+/* gene groups: no left rail, search sits in the toolbar */
+.gwrap { grid-template-columns: minmax(0, 1fr); margin-top: 30px; }
+.toolbar .search { width: 320px; }
+.ghead { align-items: flex-end; }
+
+/* compact gene group table */
+.glx .gh, .glx .gr { grid-template-columns: var(--tpl); gap: 14px; padding-left: 18px; padding-right: 18px; }
+.glx .gh { padding-top: 0; padding-bottom: 10px; white-space: nowrap; } .glx .gh small { color: #a3a9bd; }
+.glx .gr { padding-top: 9px; padding-bottom: 9px; }
+.gdot { display: grid; place-items: center; } .gdot i { display: block; border-radius: 50%; background: #c3c8d4; }
+.glx .gname { font-size: 15px; font-weight: 500; } .glx .gname a { color: inherit; }
+.vbs { display: flex; align-items: flex-end; gap: 2px; height: 24px; }
+.vb { display: block; width: 5px; height: 16px; border-radius: 3px; background: color-mix(in srgb, var(--hi) var(--p), #e7e9f0); }
+.vb.big { width: 13px; height: 24px; margin-left: 6px; border-radius: 4px; }
+.vb.pv { --hi: #25b46f; } .vb.tv { --hi: #8a63e6; width: 8px; height: 22px; } .vb.rv { --hi: #e5484d; width: 8px; height: 22px; }
+.vbs:has(.tv), .vbs:has(.rv) { gap: 3px; }
+.pw { display: flex; gap: 10px; align-items: baseline; min-width: 0; font-size: 13.5px; color: var(--ink2); }
+.pw b { font-weight: 500; color: var(--ink); font-feature-settings: 'tnum'; flex: none; min-width: 18px; }
+.pw span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.glx .gstat { display: flex; justify-content: flex-end; }
+
+/* bars and circles with a darker outline, all bars the same height */
+.vb { width: 7px; height: 22px; border-radius: 3px; background: color-mix(in srgb, var(--hi) var(--p), #eceef3); border: 1px solid color-mix(in srgb, var(--hi) max(var(--p), 0%), #b3b9c9); box-sizing: border-box; }
+.vb.pv { border-color: color-mix(in srgb, #168a52 var(--p), #b3b9c9); }
+.vb.tv { width: 9px; border-color: color-mix(in srgb, #5b3fb8 var(--p), #b3b9c9); }
+.vb.rv { width: 9px; border-color: color-mix(in srgb, #b3202a var(--p), #b3b9c9); }
+.vb.big { width: 7px; height: 22px; margin-left: 0; border-radius: 3px; }
+.vbs { height: 22px; gap: 2px; }
+.gdot i { background: #dfe2ea; border: 1px solid #8e95a8; box-sizing: border-box; }
+/* softer outlines, like the home progress bar */
+.vb, .vb.pv, .vb.tv, .vb.rv { border: 1px solid color-mix(in srgb, var(--hi) calc(var(--p) * .55), #e0e2ea); }
+.vb.big { width: 14px; }
+.gdot i { border-color: #cfd3de; }
+.gdot i { background: var(--cyan-l); border-color: var(--cyan); }
+
+/* interaction network legend */
+.nleg { display: flex; flex-direction: column; gap: 9px; margin-top: 10px; font-size: 13.5px; color: var(--ink2); }
+.nleg .lr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; } .nleg b { font-weight: 500; color: var(--ink); }
+.nleg .lr.sm { font-size: 12.5px; color: var(--mute); padding-left: 0; }
+.nleg .lcats { display: flex; flex-wrap: wrap; gap: 8px 18px; } .nleg .lcats > span { display: inline-flex; align-items: center; gap: 8px; }
+.kmark { width: 16px; height: 16px; border-radius: 50%; background: #4cc6e2; border: 2px solid #1f2240; position: relative; flex: none; box-shadow: 0 0 0 4px rgba(76,198,226,.22); }
+.kmark::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: #fff; }
+.mt .ch.exh div.hz { writing-mode: horizontal-tb; transform: none; margin: 0; height: auto; text-align: left; line-height: 1.2; }
+.mt .gc.ch div.hz { writing-mode: horizontal-tb; transform: none; margin: 0; height: auto; text-align: left; line-height: 1.2; padding: 0 12px 12px; }
