@@ -113,8 +113,8 @@ ul { padding: 0; list-style: none; }
 .sec + .sec { margin-top: 20px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
 .empty { padding: 48px 0; color: var(--cap); }
-.tcard { display: flex; flex-direction: column; }
-.thead { position: relative; padding: 0 16px 12px; background: linear-gradient(135deg, color-mix(in srgb, var(--tint) 55%, transparent), transparent 75%); border-bottom: 1px solid var(--line); min-height: 100px; display: flex; flex-direction: column; justify-content: flex-end; }
+.tcard { display: flex; flex-direction: column; background: radial-gradient(ellipse 80% 100% at 6% 0, color-mix(in srgb, var(--tint) 60%, transparent), transparent 75%), var(--surface); background-repeat: no-repeat; }
+.thead { position: relative; padding: 0 16px 12px; border-bottom: 1px solid var(--line); min-height: 100px; display: flex; flex-direction: column; justify-content: flex-end; }
 .tbadges { position: absolute; top: 0; left: 16px; display: flex; gap: 8px; }
 .tbadges .chip-type { border-top-left-radius: 0; border-top-right-radius: 0; padding: 4px 8px; }
 .tbadge { display: grid; place-items: center; min-width: 32px; padding: 4px 8px; background: var(--surface); border-radius: 0 0 var(--r) var(--r); font-size: 14px; color: var(--cap); }
@@ -127,7 +127,7 @@ ul { padding: 0; list-style: none; }
 .tbody { padding: 16px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
 .tbody p b { font-weight: 700; }
 .tbody h5 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
-.tbody ol { list-style: none; color: var(--ph); }
+.tbody ol { list-style: none; padding: 0; color: var(--ph); }
 .tbody ol li { padding: 0; }
 .tfoot { display: flex; justify-content: space-between; padding: 16px; border-top: 1px solid var(--line); }
 .btn-o i { font-size: 14px; }

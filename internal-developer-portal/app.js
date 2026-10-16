@@ -1,6 +1,6 @@
 /* Internal Developer Portal prototype — routing and interactions. All data is fictional (see data.js). */
 (function () {
-  const { TYPES, OWNERS, CATS, TEMPLATES, MEMBERS, PROJECTS, STEPS } = DB;
+  const { TYPES, OWNERS, SECS, TEMPLATES, MEMBERS, PROJECTS, STEPS } = DB;
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -8,6 +8,7 @@
 
   const TINT = { Request: '#1e3a8a', Create: '#14532d', Configure: '#713f12', Delete: '#7f1d1d' };
   const SOON = 'Not part of the designed screens yet';
+  const HASH = { docs: '#/docs', projects: '#/projects', libraries: '#/libraries', all: '#/all', patterns: '#/patterns', datascience: '#/data-science', actions: '#/templates', history: '#/history' };
 
   /* ---------- state ---------- */
   const KEY = 'idp-proto-v1';
@@ -16,28 +17,32 @@
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(ST)); } catch (e) {} };
   const isStar = (id) => ST.starred.includes(id);
 
-  const F = { q: '', type: 'All', owner: 'All', cat: 'Starred', open: {} };       // template filters
+  let SEC = 'actions';                                                          // current template section
+const FS = {};                                                                // template filters, per section
+const f = () => FS[SEC] || (FS[SEC] = { q: '', type: 'All', owner: 'All', cat: 'Starred', open: {} });
   const team = {};                                                              // project id -> members (mutable copy)
   PROJECTS.forEach((p) => { team[p.id] = MEMBERS.map((m) => ({ ...m })); });
   let W = null;                                                                 // wizard state
 
   const toast = (m) => { const t = $('#toast'); t.innerHTML = '<i class="fa-solid fa-circle-info"></i>' + esc(m); t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2400); };
 
+  const IDP = window.IDP = { routes: {}, $, $$, esc, toast, main, SOON, ST, save, TINT };
+
   /* ---------- shared chrome ---------- */
-  const nav = (icon, label, o = {}) => `<button class="nav-item ${o.on ? 'on' : ''}" ${o.go ? `data-go="${o.go}"` : `data-soon="${esc(label)}"`}><span class="ic"><i class="fa-solid fa-${icon}"></i></span>${label}</button>`;
+  const nav = (icon, label, id, active) => `<button class="nav-item ${id === active ? 'on' : ''}" ${HASH[id] ? `data-go="${HASH[id]}"` : `data-soon="${label}"`}><span class="ic"><i class="fa-solid fa-${icon}"></i></span>${label}</button>`;
   function renderSidebar(active) {
     sidebar.innerHTML = `
       <div class="brand"><img src="logo.svg" alt="">Backstage</div>
       <div class="sb-search"><label class="input"><i class="fa-solid fa-magnifying-glass"></i><input id="sbq" placeholder="Search..." autocomplete="off"></label></div>
       <nav class="nav">
-        ${nav('book', 'DevSecOpedia')}
+        ${nav('book', 'DevSecOpedia', 'docs', active)}
         <div class="nav-head">Catalog</div>
-        ${nav('folder-open', 'My Projects', { go: '#/projects', on: active === 'projects' })}
-        ${nav('robot', 'AI')}${nav('file-code', 'Libraries')}${nav('boxes-stacked', 'All')}
+        ${nav('folder-open', 'My Projects', 'projects', active)}
+        ${nav('robot', 'AI', 'ai', active)}${nav('file-code', 'Libraries', 'libraries', active)}${nav('boxes-stacked', 'All', 'all', active)}
         <div class="nav-head">Self-Service Templates</div>
-        ${nav('rocket', 'Patterns')}${nav('chart-pie', 'Data Science')}
-        ${nav('forward', 'Actions', { go: '#/templates', on: active === 'templates' })}
-        ${nav('clock-rotate-left', 'History')}
+        ${nav('rocket', 'Patterns', 'patterns', active)}${nav('chart-pie', 'Data Science', 'datascience', active)}
+        ${nav('forward', 'Actions', 'actions', active)}
+        ${nav('clock-rotate-left', 'History', 'history', active)}
       </nav>
       <div class="sb-grow"></div>
       <div class="sb-foot">
@@ -53,7 +58,7 @@
 
   /* ---------- templates list ---------- */
   function tcard(t) {
-    const star = isStar(t.id), open = F.open[t.id];
+    const star = isStar(t.id), open = f().open[t.id];
     const badges = `<div class="tbadges"><span class="chip-type" style="background:${TINT[t.type]}">${t.type}</span>${t.icons.map((i) => `<span class="tbadge"><i class="fa-solid fa-${i}"></i></span>`).join('')}</div>`;
     return `<article class="card tcard" style="--tint:${TINT[t.type]}">
       <div class="thead">${badges}<button class="tstar ${star ? 'on' : ''}" data-star="${t.id}" aria-label="${star ? 'Unstar' : 'Star'}" title="${star ? 'Unstar' : 'Star'}"><i class="${star ? 'fa-solid' : 'fa-regular'} fa-star"></i></button>
@@ -63,25 +68,27 @@
       <div class="tfoot"><button class="btn btn-o" data-info="${t.id}"><i class="fa-solid fa-circle-info"></i>${open ? 'Less' : 'Info'}</button><button class="btn btn-s" data-use="${t.id}">Use</button></div>
     </article>`;
   }
-  const matches = (t) => (F.type === 'All' || t.type === F.type) && (F.owner === 'All' || t.owner === F.owner) && (!F.q || (t.title + ' ' + t.owner).toLowerCase().includes(F.q.toLowerCase()));
+  const matches = (t) => { const F = f(); return (F.type === 'All' || t.type === F.type) && (F.owner === 'All' || t.owner === F.owner) && (!F.q || (t.title + ' ' + t.owner).toLowerCase().includes(F.q.toLowerCase())); };
   function templateSections() {
     const secs = [];
-    if (F.cat === 'Starred') secs.push(['Starred', TEMPLATES.filter((t) => isStar(t.id) && matches(t))]);
-    CATS.forEach((c, i) => { if (F.cat === 'Starred' || F.cat === c) secs.push([c, TEMPLATES.filter((t) => t.cat === i && matches(t))]); });
+    const F = f(), list = TEMPLATES.filter((t) => t.sec === SEC);
+    if (F.cat === 'Starred') secs.push(['Starred', list.filter((t) => isStar(t.id) && matches(t))]);
+    SECS[SEC].cats.forEach((c, i) => { if (F.cat === 'Starred' || F.cat === c) secs.push([c, list.filter((t) => t.cat === i && matches(t))]); });
     const shown = secs.filter(([, l]) => l.length);
     if (!shown.length) return '<div class="empty">No templates match your filters.</div>';
     return shown.map(([h, l]) => `<section class="sec"><h2>${esc(h)}</h2><div class="grid">${l.map(tcard).join('')}</div></section>`).join('');
   }
   const sel = (id, label, opts, val) => `<div class="select"><select id="${id}" aria-label="${label}">${['All', ...opts].map((o) => `<option ${o === val ? 'selected' : ''} value="${esc(o)}">${label}: ${esc(o)}</option>`).join('')}</select><i class="fa-solid fa-chevron-down"></i></div>`;
-  function viewTemplates() {
-    renderSidebar('templates');
-    main.innerHTML = topbar(`${home}${sep}<span>Self-Service Templates</span>${sep}<span class="cur">Actions</span>`,
+  function viewTemplates(sec) {
+    SEC = sec; const F = f();
+    renderSidebar(sec);
+    main.innerHTML = topbar(`${home}${sep}<span>Self-Service Templates</span>${sep}<span class="cur">${SECS[sec].title}</span>`,
       '<button class="btn btn-g" data-soon="More actions" aria-label="More"><i class="fa-solid fa-ellipsis-vertical"></i></button><button class="btn btn-p" data-soon="Add template"><i class="fa-solid fa-plus"></i>Add</button>')
       + `<div class="split page">
         <aside class="leftcol">
           <div class="card filterbox"><label class="input"><i class="fa-solid fa-magnifying-glass"></i><input id="tq" placeholder="Search templates..." value="${esc(F.q)}" autocomplete="off"></label>
             ${sel('ftype', 'Type', TYPES, F.type)}${sel('fowner', 'Owner', OWNERS, F.owner)}</div>
-          <div class="catblock"><h3>Categories</h3><div class="card catlist">${['Starred', ...CATS].map((c) => `<button class="cat ${c === F.cat ? 'on' : ''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>
+          <div class="catblock"><h3>Categories</h3><div class="card catlist">${['Starred', ...SECS[sec].cats].map((c) => `<button class="cat ${c === F.cat ? 'on' : ''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>
         </aside>
         <div class="content" id="tcontent">${templateSections()}</div></div>`;
   }
@@ -110,16 +117,16 @@
   function wizDone() {
     return `<div class="done-box"><div class="big"><i class="fa-solid fa-check"></i></div><h2>Template run finished</h2>
       <p>The repository <b>${esc(W.owner)}/${esc(W.repo)}</b> was created and the landing page is being deployed to GitHub Pages.</p>
-      <div class="acts"><button class="btn btn-o" data-soon="Repository link">Open repository</button><button class="btn btn-s" data-go="#/templates">Back to templates</button></div></div>`;
+      <div class="acts"><button class="btn btn-o" data-soon="Repository link">Open repository</button><button class="btn btn-s" data-go="${SECS[TEMPLATES.find((x) => x.id === W.id).sec].hash}">Back to templates</button></div></div>`;
   }
   function viewUse(id) {
     const t = TEMPLATES.find((x) => x.id === id);
     if (!t) { location.hash = '#/templates'; return; }
     if (!W || W.id !== id) W = { id, step: 0, name: '', mode: '', topics: [], host: 'github.com', owner: 'unicorn-team', repo: '', err: false, done: false };
-    renderSidebar('templates');
+    renderSidebar(t.sec);
     const body = W.done ? wizDone() : [wizStep1, wizStep2, wizStep3][W.step]();
     const stepper = `<div class="stepper">${WSTEPS.map((s, i) => `<div class="step ${W.done || i < W.step ? 'done' : i === W.step ? 'on' : ''}"><span class="dot">${W.done || i < W.step ? '<i class="fa-solid fa-check"></i>' : i + 1}</span>${s}</div>`).join('')}</div>`;
-    main.innerHTML = topbar(`${home}${sep}<span>Self-Service Templates</span>${sep}<a href="#/templates">Actions</a>${sep}<span class="chip-type" style="background:${TINT[t.type]}">${t.type}</span><span class="ttl">${esc(t.title)}</span>`)
+    main.innerHTML = topbar(`${home}${sep}<span>Self-Service Templates</span>${sep}<a href="${SECS[t.sec].hash}">${SECS[t.sec].title}</a>${sep}<span class="chip-type" style="background:${TINT[t.type]}">${t.type}</span><span class="ttl">${esc(t.title)}</span>`)
       + `<div class="wiz page"><div class="card wizcard">
         <div class="wh"><h1>${esc(t.title)}</h1><p><b>tl;dr;</b> ${esc(t.tldr)}</p></div>
         <div class="wb">${W.done ? '' : stepper}${body}</div>
@@ -191,9 +198,12 @@
     closeMenu();
     const h = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
     const [a, b, c] = h;
-    if (!a || a === 'templates') {
-      if (b === 'use' && c) { viewUse(c); } else { W = null; viewTemplates(); }
-    } else if (a === 'projects') { b ? viewProject(b, c) : viewProjects(); }
+    if (IDP.routes[a]) { IDP.routes[a](b, c); }
+    else if (!a || a === 'templates') {
+      if (b === 'use' && c) { viewUse(c); } else { W = null; viewTemplates('actions'); }
+    } else if (a === 'patterns') { W = null; viewTemplates('patterns'); }
+    else if (a === 'data-science') { W = null; viewTemplates('datascience'); }
+    else if (a === 'projects') { b ? viewProject(b, c) : viewProjects(); }
     else { location.hash = '#/templates'; return; }
     main.scrollTop = 0;
   }
@@ -210,9 +220,9 @@
       const id = el.dataset.star; ST.starred = isStar(id) ? ST.starred.filter((x) => x !== id) : [...ST.starred, id]; save();
       toast(isStar(id) ? 'Added to Starred' : 'Removed from Starred'); refreshTemplates(); return;
     }
-    if ((el = t.closest('[data-info]'))) { F.open[el.dataset.info] = !F.open[el.dataset.info]; refreshTemplates(); return; }
+    if ((el = t.closest('[data-info]'))) { f().open[el.dataset.info] = !f().open[el.dataset.info]; refreshTemplates(); return; }
     if ((el = t.closest('[data-use]'))) { location.hash = '#/templates/use/' + el.dataset.use; return; }
-    if ((el = t.closest('[data-cat]'))) { F.cat = el.dataset.cat; $$('.cat').forEach((c) => c.classList.toggle('on', c === el)); refreshTemplates(); return; }
+    if ((el = t.closest('[data-cat]'))) { f().cat = el.dataset.cat; $$('.cat').forEach((c) => c.classList.toggle('on', c === el)); refreshTemplates(); return; }
     if ((el = t.closest('[data-wnext]'))) { wizNext(); return; }
     if ((el = t.closest('[data-wback]'))) { W.step = Math.max(0, W.step - 1); W.err = false; viewUse(W.id); return; }
     if (t.closest('[data-stop]')) { e.stopPropagation(); toast('Project menu — ' + SOON.toLowerCase()); return; }
@@ -226,19 +236,21 @@
   });
   document.addEventListener('input', (e) => {
     const t = e.target;
-    if (t.id === 'tq') { F.q = t.value; refreshTemplates(); }
+    if (t.id === 'tq') { f().q = t.value; refreshTemplates(); }
     else if (t.id === 'w-name') { W.name = t.value; }
     else if (t.id === 'w-owner') { W.owner = t.value; }
     else if (t.id === 'w-repo') { W.repo = t.value; }
   });
   document.addEventListener('change', (e) => {
     const t = e.target;
-    if (t.id === 'ftype') { F.type = t.value; refreshTemplates(); }
-    else if (t.id === 'fowner') { F.owner = t.value; refreshTemplates(); }
+    if (t.id === 'ftype') { f().type = t.value; refreshTemplates(); }
+    else if (t.id === 'fowner') { f().owner = t.value; refreshTemplates(); }
     else if (t.id === 'w-host') { W.host = t.value; }
     else if (t.name === 'mode') { W.mode = t.value; }
     else if (t.name === 'topic') { W.topics = $$('input[name=topic]:checked').map((c) => c.value); }
   });
 
+  Object.assign(IDP, { renderSidebar, topbar, home, sep, sel, closeMenu });
+  window.IDPready && window.IDPready();
   route();
 })();

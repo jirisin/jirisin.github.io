@@ -400,9 +400,9 @@ footer.site {
 /* project imagery */
 .case-card.has-pop { padding-bottom: 200px; }
 .case-card .pop-clip { position: absolute; inset: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
-.case-card .pop { position: absolute; right: -64px; bottom: -48px; width: 410px; padding: 4px; border-radius: 20px; background: linear-gradient(135deg, rgba(127,211,176,.55) 0%, rgba(127,211,176,.35) 45%, rgba(255,255,255,.28) 100%); box-shadow: 0 24px 50px -12px rgba(0,0,0,.6); transition: transform .45s ease; transform-origin: 100% 100%; }
-.case-card .pop img { display: block; width: 100%; height: auto; border-radius: 16px; }
-.case-card .pop i { position: absolute; inset: 4px; border-radius: 16px; border: 1px solid rgba(255,255,255,.5); pointer-events: none; }
+.case-card .pop { position: absolute; right: -64px; bottom: -48px; width: 410px; padding: 4px; border-radius: 8px; background: linear-gradient(135deg, rgba(127,211,176,.35) 0%, rgba(127,211,176,.15) 100%); box-shadow: 0 24px 50px -12px rgba(0,0,0,.6); transition: transform .45s ease; transform-origin: 100% 100%; }
+.case-card .pop img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.case-card .pop i { position: absolute; inset: 4px; border-radius: 4px; border: 1px solid rgba(127,211,176,.3); pointer-events: none; }
 .case-card.has-pop:hover .pop { transform: translate(0px, -6px); }
 .cs-shot { max-width: 1100px; margin: 0 auto; padding: 56px 56px 0; }
 .cs-shot figure { margin: 0; }
