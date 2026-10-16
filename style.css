@@ -248,6 +248,8 @@ body {
 .rec-tab[aria-selected="true"] { transform: scale(1.25); opacity: 1; border-color: var(--accent); color: var(--accent); }
 .rec-tab { overflow: hidden; }
 .rec-tab img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.rec-solo { display: block; width: 64px; height: 64px; border-radius: 50%; overflow: hidden; transform: scale(1.25); border: 1px solid var(--accent); }
+.rec-solo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .rec-tab img.crop { transform: scale(1.5); transform-origin: 50% 35%; }
 .rec-panels { display: grid; border-top: 1px solid rgba(255,255,255,.12); padding-top: 28px; }
 .rec { grid-area: 1 / 1; margin: 0; visibility: hidden; opacity: 0; transition: opacity .3s; }
