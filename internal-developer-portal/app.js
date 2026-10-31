@@ -48,7 +48,7 @@ const f = () => FS[SEC] || (FS[SEC] = { q: '', type: 'All', owner: 'All', cat: '
       <div class="sb-foot">
         <button class="nav-item" data-soon="Help"><span class="ic"><i class="fa-regular fa-circle-question"></i></span>Help</button>
         <hr>
-        <button class="user" data-soon="Profile"><span class="avatar"><img src="../portrait.png" alt=""></span><span class="who"><b>Jiri Sindelar</b><small>jiri.sin@gmail.com</small></span><i class="fa-solid fa-chevron-right"></i></button>
+        <button class="user" data-soon="Profile"><span class="avatar"><img src="../portrait.jpg" alt=""></span><span class="who"><b>Jiri Sindelar</b><small>jiri.sin@gmail.com</small></span><i class="fa-solid fa-chevron-right"></i></button>
       </div>`;
   }
   const home = '<a class="homebtn" href="#/templates" title="Home"><i class="fa-solid fa-house-chimney-medical"></i></a>';
